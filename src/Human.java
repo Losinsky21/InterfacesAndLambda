@@ -1,5 +1,6 @@
 import javax.jws.soap.SOAPBinding;
 import java.util.ArrayList;
+import java.util.Random;
 
 public class Human implements IHumanActions{
 
@@ -10,14 +11,17 @@ public class Human implements IHumanActions{
     private ArrayList<UseActions> useArray = new ArrayList<>();
     private ArrayList<DrinkActions> drinkArray = new ArrayList<>();
     private ArrayList<EatActions> eatArray = new ArrayList<>();
+    private Random random = new Random();
 
     public class WorkActions
     {
-        String s_action;
+        private String s_action;
+        private int i_points;
 
         public WorkActions(String _action)
         {
             s_action = _action;
+            i_points = random.nextInt(31)-32;
         }
 
         public void removeAction()
@@ -33,18 +37,20 @@ public class Human implements IHumanActions{
         @Override
         public String toString()
         {
-            return s_name + " - " + i_age + " - " + s_action;
+            return s_name + "\t|\t" + i_age + "\t|\t" + s_action + "\t|\t" +i_points+"\n";
         }
 
     }
 
-    class UseActions
+    public class UseActions
     {
-        String s_action;
+        private String s_action;
+        private int i_points;
 
         public UseActions(String _action)
         {
             this.s_action = _action;
+            this.i_points = random.nextInt(11)-12;
         }
 
         public void addAction()
@@ -65,13 +71,15 @@ public class Human implements IHumanActions{
 
     }
 
-    class DrinkActions
+    public class DrinkActions
     {
-        String s_action;
+        private String s_action;
+        private int i_points;
 
         public DrinkActions(String _action)
         {
             this.s_action = _action;
+            this.i_points = random.nextInt(9)+1;
         }
 
         public void addAction()
@@ -91,13 +99,15 @@ public class Human implements IHumanActions{
         }
     }
 
-    class EatActions
+    public class EatActions
     {
         private String s_action;
+        private int i_points;
 
         public EatActions(String _action)
         {
             this.s_action = _action;
+            this.i_points = random.nextInt(20)+1;
         }
 
         public void addAction()
@@ -115,6 +125,7 @@ public class Human implements IHumanActions{
         {
             return s_name + " - " + i_age + " - " + s_action;
         }
+
     }
 
     public Human(String _s_name, int _i_age)
@@ -182,21 +193,26 @@ public class Human implements IHumanActions{
         return 0;
     }
 
+    @Override
     public ArrayList<WorkActions> getWorkArray ()
     {
+        System.out.println("NAME"+"\t|\t"+"AGE"+"\t|\t"+"ACTION"+"\t\t|\t"+"POINTS");
         return workArray;
     }
 
+    @Override
     public ArrayList<UseActions> getUseArray ()
     {
         return useArray;
     }
 
+    @Override
     public ArrayList<DrinkActions> getDrinkArray ()
     {
         return drinkArray;
     }
 
+    @Override
     public ArrayList<EatActions> getEatArray ()
     {
         return eatArray;
