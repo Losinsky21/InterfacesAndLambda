@@ -1,4 +1,3 @@
-import javax.jws.soap.SOAPBinding;
 import java.util.ArrayList;
 import java.util.Random;
 
@@ -7,6 +6,7 @@ public class Human implements IHumanActions{
     private String s_name;
     private int i_age;
     private int i_healthPoints;
+    private int i_healthPointsLevel;
     private ArrayList<WorkActions> workArray = new ArrayList<>();
     private ArrayList<UseActions> useArray = new ArrayList<>();
     private ArrayList<DrinkActions> drinkArray = new ArrayList<>();
@@ -34,12 +34,20 @@ public class Human implements IHumanActions{
             workArray.add(this);
         }
 
+        public int getActionPoints()
+        {
+            return this.i_points;
+        }
+
         @Override
         public String toString()
         {
             return s_name + "\t|\t" + i_age + "\t|\t" + s_action + "\t|\t" +i_points+"\n";
         }
 
+        public void work() {
+            i_healthPoints += this.i_points;
+        }
     }
 
     public class UseActions
@@ -63,10 +71,19 @@ public class Human implements IHumanActions{
             useArray.remove(this);
         }
 
+        public int getActionPoints()
+        {
+            return this.i_points;
+        }
+
         @Override
         public String toString()
         {
-            return s_name + " - " + i_age + " - " + s_action;
+            return s_name + "\t|\t" + i_age + "\t|\t" + s_action + "\t|\t" +i_points+"\n";
+        }
+
+        public void use() {
+            i_healthPoints += this.i_points;
         }
 
     }
@@ -92,11 +109,21 @@ public class Human implements IHumanActions{
             drinkArray.remove(this);
         }
 
+        public int getActionPoints()
+        {
+            return this.i_points;
+        }
+
         @Override
         public String toString()
         {
-            return s_name + " - " + i_age + " - " + s_action;
+            return s_name + "\t|\t" + i_age + "\t|\t" + s_action + "\t|\t" +i_points+"\n";
         }
+
+        public void drink() {
+            i_healthPoints -= this.i_points;
+        }
+
     }
 
     public class EatActions
@@ -123,16 +150,30 @@ public class Human implements IHumanActions{
         @Override
         public String toString()
         {
-            return s_name + " - " + i_age + " - " + s_action;
+            return s_name + "\t|\t" + i_age + "\t|\t" + s_action + "\t|\t" +i_points+"\n";
         }
 
+        public void eat()
+        {
+            if (i_healthPoints + this.i_points <= i_healthPointsLevel) {
+                i_healthPoints += this.i_points;
+            } else {
+                i_healthPoints = i_healthPointsLevel;
+            }
+        }
+
+        public int getActionPoints()
+        {
+            return this.i_points;
+        }
     }
 
     public Human(String _s_name, int _i_age)
     {
         this.s_name = _s_name;
         this.i_age = _i_age;
-        i_healthPoints = 100;
+        this.i_healthPoints = 100;
+        this.i_healthPointsLevel = this.i_healthPoints;
     }
 
     public WorkActions addWorkAction(String _action)
@@ -174,26 +215,6 @@ public class Human implements IHumanActions{
     }
 
     @Override
-    public float work(int n) {
-        return 0;
-    }
-
-    @Override
-    public float use(int n) {
-        return 0;
-    }
-
-    @Override
-    public float drink(int n) {
-        return 0;
-    }
-
-    @Override
-    public float eat(int n) {
-        return 0;
-    }
-
-    @Override
     public ArrayList<WorkActions> getWorkArray ()
     {
         System.out.println("NAME"+"\t|\t"+"AGE"+"\t|\t"+"ACTION"+"\t\t|\t"+"POINTS");
@@ -203,18 +224,29 @@ public class Human implements IHumanActions{
     @Override
     public ArrayList<UseActions> getUseArray ()
     {
+        System.out.println("NAME"+"\t|\t"+"AGE"+"\t|\t"+"ACTION"+"\t\t|\t"+"POINTS");
         return useArray;
     }
 
     @Override
     public ArrayList<DrinkActions> getDrinkArray ()
     {
+        System.out.println("NAME"+"\t|\t"+"AGE"+"\t|\t"+"ACTION"+"\t\t|\t"+"POINTS");
         return drinkArray;
     }
 
     @Override
     public ArrayList<EatActions> getEatArray ()
     {
+        System.out.println("NAME"+"\t|\t"+"AGE"+"\t|\t"+"ACTION"+"\t\t|\t"+"POINTS");
         return eatArray;
     }
+
+    @Override
+    public String toString()
+    {
+        return "Name: "+this.s_name + ", " + "age: " + this.i_age + ", " + "health points left: " + this.i_healthPoints;
+    }
 }
+
+

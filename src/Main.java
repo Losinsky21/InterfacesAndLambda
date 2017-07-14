@@ -9,19 +9,6 @@ public class Main {
 
         Human jasiek = new Human("Jan",20);
 
-        Human.WorkActions dishWash = jasiek.addWorkAction("Washing dishes");
-        Human.WorkActions cleanRoom = jasiek.addWorkAction("Clean room");
-        Human.WorkActions doLaundry = jasiek.addWorkAction("Do laundry");
-        Human.EatActions apple = jasiek.addEatAction("Apple");
-        Human.EatActions pizza = jasiek.addEatAction("Pizza");
-        Human.EatActions burrito = jasiek.addEatAction("Burrito");
-        Human.UseActions exercise = jasiek.addUseAction("Exercise");
-        Human.UseActions readBook = jasiek.addUseAction("Read book");
-        Human.UseActions useToilerPaper = jasiek.addUseAction("Use toilet paper");
-        Human.DrinkActions whisky = jasiek.addDrinkAction("Whisky");
-        Human.DrinkActions beer = jasiek.addDrinkAction("Beer");
-        Human.DrinkActions coffee = jasiek.addDrinkAction("Coffee");
-
         live(jasiek);
        // System.out.println(jasiek.getDrinkArray());
     }
@@ -40,19 +27,35 @@ public class Main {
         return count == 0 ? 0 : sum/count;
     }*/
 
-    public static void live(IHumanActions humanActions)
-    {
+    public static void live(IHumanActions humanActions) {
         Scanner enterAction = new Scanner(System.in);
         String action;
 
-        System.out.println("Welcome to the simple human simulator. \n Enter action to continue. \n To get action list type 'info'. ");
+        Human.WorkActions dishWash = humanActions.addWorkAction("Washing dishes");
+        Human.WorkActions cleanRoom = humanActions.addWorkAction("Clean room");
+        Human.WorkActions doLaundry = humanActions.addWorkAction("Do laundry");
+        Human.EatActions apple = humanActions.addEatAction("Apple");
+        Human.EatActions pizza = humanActions.addEatAction("Pizza");
+        Human.EatActions burrito = humanActions.addEatAction("Burrito");
+        Human.UseActions exercise = humanActions.addUseAction("Exercise");
+        Human.UseActions readBook = humanActions.addUseAction("Read book");
+        Human.UseActions useToilerPaper = humanActions.addUseAction("Use toilet paper");
+        Human.DrinkActions whisky = humanActions.addDrinkAction("Whisky");
+        Human.DrinkActions beer = humanActions.addDrinkAction("Beer");
+        Human.DrinkActions coffee = humanActions.addDrinkAction("Coffee");
+
+        System.out.println("Welcome to the simple human simulator. \n Enter action to continue. \n To get action list type 'info'. " +
+                "\n To get informations about character type 'character info'. ");
+
+
 
         while (humanActions.canMove() && !humanActions.isDead())
         {
+            System.out.println("Actions: 'Work actions', 'Use Actions', 'Eat Actions', 'Drink Actions', 'info', 'character info'");
             System.out.println("Enter action: ");
             action = enterAction.nextLine();
 
-            switch (action)
+            switch (action.toLowerCase())
             {
                 case "info":
                     System.out.println("To get information just write one of those:");
@@ -77,52 +80,117 @@ public class Main {
                             System.out.println("No information about those actions");
                             break;
                     }
+                    break;
+
                 case "work actions":
+                    System.out.println("Actions: 'Washing dishes', 'Clean room', 'Do laundry'. ");
                     System.out.println("Enter kind of a work action");
                     action = enterAction.nextLine();
 
                     switch (action.toLowerCase())
                     {
                         case "washing dishes":
-                            //washing action
+                            dishWash.work();
+                            System.out.println("*** Washing dishes has been done. ***\n" + dishWash.getActionPoints()*(-1) + " points has been removed. ");
                             break;
                         case "clean room":
-                            //clean action
+                            cleanRoom.work();
+                            System.out.println("*** Cleaning room has been done. ***\n" + cleanRoom.getActionPoints()*(-1) + " points has been removed.");
                             break;
                         case "do laundry":
-                            //laundry action
+                            doLaundry.work();
+                            System.out.println("*** Laundry has been done. ***\n" + doLaundry.getActionPoints()*(-1) + " points has been removed. ");
                             break;
                         default:
-                            System.out.println("No action has been choosen. ");
+                            System.out.println("Wrong work action has been choosen. ");
                             break;
                     }
+                    break;
+
                 case "eat actions":
+                    System.out.println("Actions: 'Apple', 'Pizza', 'Burrito'. ");
                     System.out.println("Enter kind of an eat action: ");
                     action = enterAction.nextLine();
 
                     switch (action.toLowerCase())
                     {
                         case "apple":
-                            //eat apple
+                            apple.eat();
+                            System.out.println("*** You've eaten an apple! ***\n" + apple.getActionPoints() + " points has been added! ");
                             break;
                         case "pizza":
-                            //eat pizza
+                            pizza.eat();
+                            System.out.println("*** You've eaten a pizza! ***\n" + pizza.getActionPoints() + " points has been added! ");
                             break;
                         case "burrito":
-                            //eat burrito
+                            burrito.eat();
+                            System.out.println("*** You've eaten a buttiro! ***\n" + burrito.getActionPoints() + " points has been added! ");
+                            break;
+                        default:
+                            System.out.println("Wrong eat action has been choosen. ");
                             break;
                     }
-
-
-
                     break;
+
+                case "use actions":
+                    System.out.println("Actions: 'Exercise', 'Read book', 'Use toilet paper'. ");
+                    System.out.println("Enter kind of an use action: ");
+                    action = enterAction.nextLine();
+
+                    switch (action)
+                    {
+                        case "exercise":
+                            exercise.use();
+                            System.out.println("*** Execrise has been done. ***\n" + exercise.getActionPoints()*(-1) + " points has been removed. ");
+                            break;
+                        case "read book":
+                            readBook.use();
+                            System.out.println("*** Reading book has been done. ***\n" + readBook.getActionPoints()*(-1) + " points has been removed. ");
+                            break;
+                        case "use toilet paper":
+                            useToilerPaper.use();
+                            System.out.println("*** Using toilet paper has been done. ***\n" + useToilerPaper.getActionPoints()*(-1) + " points has been removed. ");
+                            break;
+                        default:
+                            System.out.println("Wrong  action has been choosen. ");
+                            break;
+                    }
+                    break;
+
+                case "drink actions":
+                    System.out.println("Actions: 'Whisky', 'Beer', 'Coffee'. ");
+                    System.out.println("Enter kind of an use action: ");
+                    action = enterAction.nextLine();
+
+                    switch (action)
+                    {
+                        case "whisky":
+                            whisky.drink();
+                            System.out.println("*** You've drank a whisky! ***\n" + whisky.getActionPoints() + " points has been added! ");
+                            break;
+                        case "beer":
+                            beer.drink();
+                            System.out.println("*** You've drank a beer! ***\n" + beer.getActionPoints() + " points has been added! ");
+                            break;
+                        case "coffee":
+                            coffee.drink();
+                            System.out.println("*** You've drank a coffee! ***\n" + coffee.getActionPoints() + " points has been added! ");
+                            break;
+                        default:
+                            System.out.println("No right action has been choosen. ");
+                            break;
+                    }
+                    break;
+
+                case "character info":
+                    System.out.println(humanActions.toString());
+                    break;
+
                 default:
-                    System.out.println("No work action has been choosen");
+                    System.out.println("No right action has been choosen");
                     break;
             }
-            System.out.flush();
         }
-
         System.out.println("You're dead!");
     }
 }
